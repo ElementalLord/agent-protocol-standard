@@ -98,6 +98,14 @@ need.
 Note that `generate-index` runs with `contents: write` where no App is configured, since GITHUB_TOKEN
 does the push in that case.
 
+## Browse the federation
+
+[`site/`](site/) is a static, no-build search frontend for the federation. It reads
+[`registry.yaml`](registry.yaml), loads every registered `PROTOCOLS.yaml`, and offers full-text search
+with category, status, type, registry, review and tag filters. It is published with GitHub Pages
+(`.github/workflows/pages.yml`; set Settings → Pages → Source to "GitHub Actions" once). To preview
+locally: `python3 -m http.server -d site`.
+
 ## Development
 
 *   `pytest tests/` runs the whole suite. With no protocols in this repository, it is
@@ -113,6 +121,8 @@ does the push in that case.
         frontmatter through whole, and **refuses to write at all** when it finds no protocols or
         cannot determine the repository. The index-generation action commits its output, so a wrong
         or empty index would be published without anyone looking at it.
+*   `python3 scripts/check_citations.py <protocol-dir> <agent-output>` checks the citations an
+    agent gave when it ran a protocol against that protocol's frontmatter; see its docstring.
 *   `python3 scripts/validate_protocol.py <dir>` runs the validator against a protocols directory
     directly — point it at a checkout of a content repository to reproduce a CI failure locally.
 
